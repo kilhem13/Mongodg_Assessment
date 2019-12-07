@@ -65,6 +65,12 @@ db.employees.aggregate([
 
 // 9- print("Query 09")
 // The cities where at least 2 missions took place
+db.employees.aggregate([
+    { $unwind: "$missions" },
+    { $group: { _id: "$missions.location", missions: { $sum: 1 } } },
+    { $match: { missions: { $gte: 2 } } },
+    { $project: { _id: 0, city: "$_id" } }
+])
 
 // 10- print("Query 10")
 // The highest salary
@@ -147,5 +153,3 @@ db.employees.aggregate([
 db.employees.aggregate([
     { $project: { _id: 0, name: "$name", salary: 1 } }
 ])
-
-// cd 'D:\Program Files\MongoDB\Server\4.2\bin\'
