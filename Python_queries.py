@@ -34,3 +34,16 @@ pipeline = [
     { "$project": { "_id": 0 } }
             ]
 list(mydb.employees.aggregate(pipeline))
+
+#4
+import pymongo
+myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+db = myclient.company
+result = db.employees.aggregate([
+    { "$match": { "department": { "$exists": 1 } } },
+    { "$group": { "_id": "$department.name" } },
+    { "$project": { "_id": 0, "name": "$_id" } }
+])
+
+for elem in result:
+    print(elem)
