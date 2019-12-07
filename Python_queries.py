@@ -5,6 +5,6 @@ mycol = mydb["employees"]
 pipeline = [
     { "$match": { "job": "clerk" } },
     { "$group": { "_id": "$job", "salary": { "$max": "$salary" } } },
-    { "$project": { "_id": "false" } }
+    { "$project": { "_id": 0 } }
             ]
 list(mydb.employees.aggregate(pipeline))
