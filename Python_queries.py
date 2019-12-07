@@ -10,6 +10,18 @@ pipeline = [
             ]
 list(mydb.employees.aggregate(pipeline))
 
+#2
+import pymongo
+myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+db = myclient.company
+result = db.employees.aggregate([
+    { "$match": { "job": "manager" } },
+    { "$group": { "_id": "$job", "total": { "$sum": "$salary" } } },
+    { "$project": { "_id": 0 } }
+])
+
+for elem in result:
+    print(elem)
 
 #3
 import pymongo
